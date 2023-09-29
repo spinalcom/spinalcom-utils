@@ -1,17 +1,17 @@
-# spinalcom-utlis
+# spinalcom-utils
 
 CLI for some Spinalcom utilities
 
 ## Install
 
 ```sh
-sudo npm i -g https://github.com/spinalcom/spinalcom-utlis.git
+sudo npm i -g https://github.com/spinalcom/spinalcom-utils.git
 ```
 
 ## Usage
 
 ```
-Usage: spinalcom-utlis [options] [command]
+Usage: spinalcom-utils [options] [command]
 
 CLI for some Spinalcom utilities
 
@@ -30,7 +30,7 @@ Commands:
 #### install options
 
 ```
-Usage: spinalcom-utlis install [options] [module_names...]
+Usage: spinalcom-utils install [options] [module_names...]
 
 install spinalcom dependencies
 

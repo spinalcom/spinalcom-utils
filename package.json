@@ -1,9 +1,9 @@
 {
-  "name": "spinalcom-utlis",
-  "version": "1.0.0",
+  "name": "spinalcom-utils",
+  "version": "1.0.1",
   "description": "CLI for some Spinalcom utilities",
   "main": "index.js",
-  "bin": "./spinalcom-utlis",
+  "bin": "./spinalcom-utils",
   "scripts": {
     "build": "tsc"
   },

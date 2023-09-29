@@ -29,7 +29,7 @@ var handleInstall_1 = require("./cmds/handleInstall/handleInstall");
 var promises_1 = require("fs/promises");
 function main() {
     commander_1.program
-        .name('spinalcom-utlis')
+        .name('spinalcom-utils')
         .description('CLI for some Spinalcom utilities')
         .version('1.0.0');
     commander_1.program

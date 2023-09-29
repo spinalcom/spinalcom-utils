@@ -29,7 +29,7 @@ import { rm } from 'fs/promises';
 
 function main() {
   program
-    .name('spinalcom-utlis')
+    .name('spinalcom-utils')
     .description('CLI for some Spinalcom utilities')
     .version('1.0.0');
 
