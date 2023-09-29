@@ -1,0 +1,26 @@
+{
+  "name": "spinalcom-utlis",
+  "version": "1.0.0",
+  "description": "CLI for some Spinalcom utilities",
+  "main": "index.js",
+  "bin": "./spinalcom-utlis",
+  "scripts": {
+    "build": "tsc"
+  },
+  "keywords": [
+    "spinalcom"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/cli-progress": "^3.11.2",
+    "@types/node": "^20.6.2",
+    "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "cli-progress": "^3.12.0",
+    "commander": "^11.0.0",
+    "mkdirp": "^3.0.1",
+    "simple-git": "^3.19.1"
+  }
+}
