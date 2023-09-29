@@ -31,7 +31,7 @@ function main() {
     commander_1.program
         .name('spinalcom-utils')
         .description('CLI for some Spinalcom utilities')
-        .version('1.0.0');
+        .version('1.0.1');
     commander_1.program
         .command('clear')
         .description('clear the cache folder')
