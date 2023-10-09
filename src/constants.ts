@@ -24,7 +24,7 @@
 
 export const DEFAULT_CACHE_DIR = '/tmp/spinal-utils';
 export const PARSE_REG_REPOSITORY =
-  /(((https|ssh):\/\/github\.com\/)|(git@github\.com:)|(github:))(?<owner>[\w\d]+)\/(?<gitname>[\w\-_\d]+)(.git)?(#(?<commit>.+))?/i;
+  /(((https|ssh):\/\/github\.com\/)|(git@github\.com(:|\/))|(github:))(?<owner>[\w\d]+)\/(?<gitname>[\w\-_\d]+)(.git)?(#(?<commit>.+))?/i;
 export const CONFLIT_FILE_NAME = 'spinalconflit.json';
 export const EDIT_ME_STRING = 'EDIT_ME';
 export const DEFAULT_GITOWNER = 'spinalcom';

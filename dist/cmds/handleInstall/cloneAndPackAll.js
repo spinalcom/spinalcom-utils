@@ -107,7 +107,7 @@ var promises_1 = require("fs/promises");
 var hasSeenRepo_1 = require("./hasSeenRepo");
 var pushInConfitMap_1 = require("./pushInConfitMap");
 var crypto_1 = require("crypto");
-function cloneAndPackAll(packageToInstall, cacheDirPath, mainPackageJsonPath, resolvedConfit, isDryRun) {
+function cloneAndPackAll(packageToInstall, cacheDirPath, mainPackageJsonPath, resolvedConfit, isDryRun, addPostInstall) {
     return __awaiter(this, void 0, void 0, function () {
         var conflitMap, seen, tmpDir, tarOutputDir, packageJson, index, name_1, multibar, resPackageJsonDep, currentGen, nextGen, bars, toDo, currentGen_1, currentGen_1_1, currPackageJson, spinalDependencies, key, element, repo, s, promises, next, error_1;
         var e_1, _a;
@@ -122,7 +122,7 @@ function cloneAndPackAll(packageToInstall, cacheDirPath, mainPackageJsonPath, re
                     tmpDir = (0, path_1.resolve)(cacheDirPath, (0, crypto_1.randomUUID)());
                     tarOutputDir = (0, path_1.resolve)(tmpDir, 'repositories');
                     if (!(packageToInstall.length <= 0)) return [3 /*break*/, 3];
-                    return [4 /*yield*/, (0, readAndEditPackageJson_1.readAndEditPackageJson)(mainPackageJsonPath, !isDryRun)];
+                    return [4 /*yield*/, (0, readAndEditPackageJson_1.readAndEditPackageJson)(mainPackageJsonPath, addPostInstall, !isDryRun)];
                 case 2:
                     packageJson = _b.sent();
                     return [3 /*break*/, 4];
@@ -203,7 +203,7 @@ function cloneAndPackAll(packageToInstall, cacheDirPath, mainPackageJsonPath, re
                     }
                     promises = toDo.map(function (repo) {
                         return function () {
-                            return (0, CloneEditAndStore_1.CloneEditAndStore)(tmpDir, repo, tarOutputDir, multibar, bars);
+                            return (0, CloneEditAndStore_1.CloneEditAndStore)(tmpDir, repo, tarOutputDir, multibar, bars, addPostInstall);
                         };
                     });
                     _b.label = 9;

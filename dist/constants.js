@@ -25,7 +25,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.EXCEPTION_MODULES = exports.DEFAULT_GITOWNER = exports.EDIT_ME_STRING = exports.CONFLIT_FILE_NAME = exports.PARSE_REG_REPOSITORY = exports.DEFAULT_CACHE_DIR = void 0;
 exports.DEFAULT_CACHE_DIR = '/tmp/spinal-utils';
-exports.PARSE_REG_REPOSITORY = /(((https|ssh):\/\/github\.com\/)|(git@github\.com:)|(github:))(?<owner>[\w\d]+)\/(?<gitname>[\w\-_\d]+)(.git)?(#(?<commit>.+))?/i;
+exports.PARSE_REG_REPOSITORY = /(((https|ssh):\/\/github\.com\/)|(git@github\.com(:|\/))|(github:))(?<owner>[\w\d]+)\/(?<gitname>[\w\-_\d]+)(.git)?(#(?<commit>.+))?/i;
 exports.CONFLIT_FILE_NAME = 'spinalconflit.json';
 exports.EDIT_ME_STRING = 'EDIT_ME';
 exports.DEFAULT_GITOWNER = 'spinalcom';

@@ -45,7 +45,8 @@ export async function cloneAndPackAll(
   cacheDirPath: string,
   mainPackageJsonPath: string,
   resolvedConfit: IConflit,
-  isDryRun: boolean
+  isDryRun: boolean,
+  addPostInstall: boolean
 ) {
   const conflitMap = new Map<string, IGitRepo[]>();
   const seen = new Set<IGitRepo>();
@@ -54,7 +55,11 @@ export async function cloneAndPackAll(
   const tarOutputDir = resolve(tmpDir, 'repositories');
   let packageJson: IPackageJson;
   if (packageToInstall.length <= 0) {
-    packageJson = await readAndEditPackageJson(mainPackageJsonPath, !isDryRun);
+    packageJson = await readAndEditPackageJson(
+      mainPackageJsonPath,
+      addPostInstall,
+      !isDryRun
+    );
   } else {
     packageJson = {
       name: 'cli',
@@ -121,7 +126,14 @@ export async function cloneAndPackAll(
     }
     const promises = toDo.map((repo) => {
       return () =>
-        CloneEditAndStore(tmpDir, repo, tarOutputDir, multibar, bars);
+        CloneEditAndStore(
+          tmpDir,
+          repo,
+          tarOutputDir,
+          multibar,
+          bars,
+          addPostInstall
+        );
     });
     try {
       const next = await consumeBatch(promises, 10, () => {

@@ -31,7 +31,7 @@ function main() {
     commander_1.program
         .name('spinalcom-utils')
         .description('CLI for some Spinalcom utilities')
-        .version('1.0.1');
+        .version('1.0.2');
     commander_1.program
         .command('clear')
         .description('clear the cache folder')
@@ -44,8 +44,10 @@ function main() {
     commander_1.program
         .command('install [module_names...]')
         .description('install spinalcom dependencies')
+        .alias('i')
         .option('--dry-run', 'Will do everything but stop at install', false)
-        .option('--only-spinalcom', 'Install only spinalcom dependencies', false)
+        .option('-o, --only-spinalcom', 'Install only spinalcom dependencies', false)
+        .option('-i, --add-post-install', 'if set at false, remove the post install script from spinalcom package', false)
         .option('-s, --save', 'Save to package.json', true)
         .option('-p, --path <path>', 'Path to folder containing package.json or the file itself', '.')
         .option('-c, --cache <path>', 'path to cache directory', constants_1.DEFAULT_CACHE_DIR)

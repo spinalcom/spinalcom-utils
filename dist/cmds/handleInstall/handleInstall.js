@@ -88,7 +88,7 @@ function handleInstall(packageToInstall, options) {
                     if (missing.length > 0) {
                         return [2 /*return*/, console.error("Parse Error set attribute 'forceCommit' for module ".concat(missing.join(','), " in ").concat(conflitFilePath))];
                     }
-                    return [4 /*yield*/, (0, cloneAndPackAll_1.cloneAndPackAll)(packageToInstall, cacheDirPath, mainPackageJsonPath, resolvedConfit, options.dryRun)];
+                    return [4 /*yield*/, (0, cloneAndPackAll_1.cloneAndPackAll)(packageToInstall, cacheDirPath, mainPackageJsonPath, resolvedConfit, options.dryRun, options.addPostInstall)];
                 case 2:
                     _a = _b.sent(), conflitMap = _a.conflitMap, seen = _a.seen, tarOutputDir = _a.tarOutputDir, dependancies = _a.dependancies;
                     if (!conflitMap) return [3 /*break*/, 4];
@@ -113,14 +113,16 @@ function handleInstall(packageToInstall, options) {
                     _b.label = 6;
                 case 6:
                     pathPackageToInstall = packages.map(function (itm) {
-                        return (0, path_1.resolve)(tarOutputDir, "".concat(itm.moduleName, "-").concat(itm.version, ".tgz"));
+                        var regRes = /^v?(?<Major>0|(?:[1-9]\d*))(?:\.(?<Minor>0|(?:[1-9]\d*))(?:\.(?<Patch>0|(?:[1-9]\d*)))?(?:\-(?<PreRelease>[0-9A-Z\.-]+))?(?:\+(?<Meta>[0-9A-Z\.-]+))?)?/i.exec(itm.version);
+                        var version = "".concat(regRes.groups.Major, ".").concat(regRes.groups.Minor, ".").concat(regRes.groups.Patch);
+                        return (0, path_1.resolve)(tarOutputDir, "".concat(itm.moduleName, "-").concat(version, ".tgz"));
                     });
                     console.log('Start installing spinalcom dependencies...');
                     return [4 /*yield*/, (0, execNpmInstall_1.execNpmInstall)(packageJsonPath, pathPackageToInstall)];
                 case 7:
                     _b.sent();
                     if (!options.save) return [3 /*break*/, 9];
-                    return [4 /*yield*/, (0, readAndEditPackageJson_1.readAndEditPackageJson)(mainPackageJsonPath, true, dependancies)];
+                    return [4 /*yield*/, (0, readAndEditPackageJson_1.readAndEditPackageJson)(mainPackageJsonPath, options.addPostInstall, true, dependancies)];
                 case 8:
                     _b.sent();
                     _b.label = 9;

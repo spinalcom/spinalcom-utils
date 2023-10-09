@@ -40,6 +40,7 @@ export interface IInstallOpt {
   dryRun: boolean;
   onlySpinalcom: boolean;
   save: boolean;
+  addPostInstall: boolean;
 }
 
 export async function handleInstall(
@@ -68,7 +69,8 @@ export async function handleInstall(
       cacheDirPath,
       mainPackageJsonPath,
       resolvedConfit,
-      options.dryRun
+      options.dryRun,
+      options.addPostInstall
     );
   if (conflitMap) {
     const res: IConflit = transformConfitToJSON(resolvedConfit, conflitMap);
@@ -92,12 +94,22 @@ export async function handleInstall(
       await execNpmInstall(packageJsonPath);
     }
     const pathPackageToInstall = packages.map((itm) => {
-      return resolve(tarOutputDir, `${itm.moduleName}-${itm.version}.tgz`);
+      const regRes =
+        /^v?(?<Major>0|(?:[1-9]\d*))(?:\.(?<Minor>0|(?:[1-9]\d*))(?:\.(?<Patch>0|(?:[1-9]\d*)))?(?:\-(?<PreRelease>[0-9A-Z\.-]+))?(?:\+(?<Meta>[0-9A-Z\.-]+))?)?/i.exec(
+          itm.version
+        );
+      const version = `${regRes.groups.Major}.${regRes.groups.Minor}.${regRes.groups.Patch}`;
+      return resolve(tarOutputDir, `${itm.moduleName}-${version}.tgz`);
     });
     console.log('Start installing spinalcom dependencies...');
     await execNpmInstall(packageJsonPath, pathPackageToInstall);
     if (options.save) {
-      await readAndEditPackageJson(mainPackageJsonPath, true, dependancies);
+      await readAndEditPackageJson(
+        mainPackageJsonPath,
+        options.addPostInstall,
+        true,
+        dependancies
+      );
     }
   }
   await rm(resolve(tarOutputDir, '..'), {

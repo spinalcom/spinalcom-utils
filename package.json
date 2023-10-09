@@ -1,6 +1,6 @@
 {
   "name": "spinalcom-utils",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "CLI for some Spinalcom utilities",
   "main": "index.js",
   "bin": "./spinalcom-utils",

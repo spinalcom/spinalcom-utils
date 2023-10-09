@@ -35,7 +35,7 @@ export async function execNpmInstall(
     if (pathToModulesToInstall) {
       params.push(
         '--save=false',
-        '--package-lock=false',
+        '--package-lock=true',
         ...pathToModulesToInstall
       );
     }

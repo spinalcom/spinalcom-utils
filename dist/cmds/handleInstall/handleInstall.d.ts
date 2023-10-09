@@ -4,5 +4,6 @@ export interface IInstallOpt {
     dryRun: boolean;
     onlySpinalcom: boolean;
     save: boolean;
+    addPostInstall: boolean;
 }
 export declare function handleInstall(packageToInstall: string[], options: IInstallOpt): Promise<void>;

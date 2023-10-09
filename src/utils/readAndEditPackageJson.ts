@@ -30,6 +30,7 @@ import { getJSONFilePath } from './getJSONFilePath';
 
 export async function readAndEditPackageJson(
   packageJsonPath: string,
+  addPostInstall: boolean,
   doWriteFile: boolean = false,
   overwriteDependancies?: IDependencies
 ): Promise<IPackageJson> {
@@ -48,8 +49,13 @@ export async function readAndEditPackageJson(
       }
     }
   }
+  if (addPostInstall === false && packageJson.scripts?.['postinstall']) {
+    packageJson.scripts['cut-postinstall'] = packageJson.scripts['postinstall'];
+    delete packageJson.scripts['postinstall'];
+  }
   if (doWriteFile)
     await writeFile(packageJsonPath, JSON.stringify(packageJson, null, 2));
+
   return {
     name: packageJson.name,
     version: packageJson.version,

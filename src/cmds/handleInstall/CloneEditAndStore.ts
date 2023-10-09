@@ -38,7 +38,8 @@ export async function CloneEditAndStore(
   repo: IGitRepo,
   tarOutputDir: string,
   multibar: cliProgress.MultiBar,
-  bars: cliProgress.Bar[]
+  bars: cliProgress.Bar[],
+  addPostInstall: boolean
 ): Promise<IPackageJson> {
   const repoPath = resolve(cacheDir, 'tmp', randomUUID());
   const bar = multibar.create(110, 0, { modulename: repo.moduleName });
@@ -67,7 +68,11 @@ export async function CloneEditAndStore(
     );
   }
   bar.update(100);
-  const modulePackageJson = await readAndEditPackageJson(repoPath, true);
+  const modulePackageJson = await readAndEditPackageJson(
+    repoPath,
+    addPostInstall,
+    true
+  );
   bar.update(101, {
     modulename: `${repo.moduleName}@${modulePackageJson.version}`,
   });

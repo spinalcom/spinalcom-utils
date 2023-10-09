@@ -95,7 +95,7 @@ function execNpmInstall(packageJsonPath, pathToModulesToInstall) {
                     var params = ['i'];
                     if (pathToModulesToInstall) {
                         params.push.apply(params, __spreadArray(['--save=false',
-                            '--package-lock=false'], __read(pathToModulesToInstall), false));
+                            '--package-lock=true'], __read(pathToModulesToInstall), false));
                     }
                     var childProcess = (0, child_process_1.spawn)('npm', params, { cwd: dir });
                     childProcess.stdout.pipe(process.stdout);

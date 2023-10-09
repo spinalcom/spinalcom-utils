@@ -64,17 +64,18 @@ var promises_1 = require("fs/promises");
 var extractSpinalDependencies_1 = require("./extractSpinalDependencies");
 var addSpinalDependencies_1 = require("./addSpinalDependencies");
 var getJSONFilePath_1 = require("./getJSONFilePath");
-function readAndEditPackageJson(packageJsonPath, doWriteFile, overwriteDependancies) {
+function readAndEditPackageJson(packageJsonPath, addPostInstall, doWriteFile, overwriteDependancies) {
+    var _a;
     if (doWriteFile === void 0) { doWriteFile = false; }
     return __awaiter(this, void 0, void 0, function () {
         var file, packageJson, spinalModules, key;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
+        return __generator(this, function (_b) {
+            switch (_b.label) {
                 case 0:
                     packageJsonPath = (0, getJSONFilePath_1.getJSONFilePath)(packageJsonPath, 'package.json', false);
                     return [4 /*yield*/, (0, promises_1.readFile)(packageJsonPath, { encoding: 'utf-8' })];
                 case 1:
-                    file = _a.sent();
+                    file = _b.sent();
                     packageJson = JSON.parse(file);
                     spinalModules = new Map();
                     (0, extractSpinalDependencies_1.extractSpinalDependencies)(packageJson.dependencies, spinalModules);
@@ -89,11 +90,15 @@ function readAndEditPackageJson(packageJsonPath, doWriteFile, overwriteDependanc
                             }
                         }
                     }
+                    if (addPostInstall === false && ((_a = packageJson.scripts) === null || _a === void 0 ? void 0 : _a['postinstall'])) {
+                        packageJson.scripts['cut-postinstall'] = packageJson.scripts['postinstall'];
+                        delete packageJson.scripts['postinstall'];
+                    }
                     if (!doWriteFile) return [3 /*break*/, 3];
                     return [4 /*yield*/, (0, promises_1.writeFile)(packageJsonPath, JSON.stringify(packageJson, null, 2))];
                 case 2:
-                    _a.sent();
-                    _a.label = 3;
+                    _b.sent();
+                    _b.label = 3;
                 case 3: return [2 /*return*/, {
                         name: packageJson.name,
                         version: packageJson.version,

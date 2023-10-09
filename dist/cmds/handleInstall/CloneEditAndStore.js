@@ -67,7 +67,7 @@ var promises_1 = require("fs/promises");
 var crypto_1 = require("crypto");
 var simple_git_1 = require("simple-git");
 var execNpmPack_1 = require("../../utils/execNpmPack");
-function CloneEditAndStore(cacheDir, repo, tarOutputDir, multibar, bars) {
+function CloneEditAndStore(cacheDir, repo, tarOutputDir, multibar, bars, addPostInstall) {
     return __awaiter(this, void 0, void 0, function () {
         var repoPath, bar, progress, git, modulePackageJson;
         return __generator(this, function (_a) {
@@ -95,7 +95,7 @@ function CloneEditAndStore(cacheDir, repo, tarOutputDir, multibar, bars) {
                     _a.label = 5;
                 case 5:
                     bar.update(100);
-                    return [4 /*yield*/, (0, readAndEditPackageJson_1.readAndEditPackageJson)(repoPath, true)];
+                    return [4 /*yield*/, (0, readAndEditPackageJson_1.readAndEditPackageJson)(repoPath, addPostInstall, true)];
                 case 6:
                     modulePackageJson = _a.sent();
                     bar.update(101, {
