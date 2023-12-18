@@ -5,8 +5,17 @@ CLI for some Spinalcom utilities
 ## Install
 
 ```sh
-sudo npm i -g https://github.com/spinalcom/spinalcom-utils.git
+npm i -g https://github.com/spinalcom/spinalcom-utils.git
 ```
+or more manual
+```sh
+git clone https://github.com/spinalcom/spinalcom-utils.git
+cd spinalcom-utils
+npm pack
+npm i -g spinalcom-utils-1.0.2.tgz
+# or replace the 'spinalcom-utils-1.0.2.tgz' with the correct version number.
+```
+
 
 ## Usage
 
@@ -25,7 +34,7 @@ Commands:
   help [command]                       display help for command
 ```
 
-### install
+### install spinalcom dependency
 
 #### install options
 
