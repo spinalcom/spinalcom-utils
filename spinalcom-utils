@@ -23,4 +23,4 @@
  * <http://resources.spinalcom.com/licenses.pdf>.
  */
 
-require('./index');
+require('./index.js');

@@ -39,6 +39,7 @@ import type { IConflit } from '../../interfaces/IConflit';
 import { hasSeenRepo, EHasSeenRepo } from './hasSeenRepo';
 import { pushInConfitMap } from './pushInConfitMap';
 import { randomUUID } from 'crypto';
+import PQueue from 'p-queue';
 
 export async function cloneAndPackAll(
   packageToInstall: string[],
@@ -92,7 +93,9 @@ export async function cloneAndPackAll(
   let resPackageJsonDep: IDependencies = {};
   let currentGen: IPackageJson[] = [];
   let nextGen: IPackageJson[] = [packageJson];
-  let bars: cliProgress.Bar[] = [];
+  // let bars: cliProgress.Bar[] = [];
+  const queue = new PQueue({ concurrency: 10 });
+
   multibar.log('downloading...');
   while (nextGen.length) {
     currentGen = nextGen;
@@ -125,23 +128,22 @@ export async function cloneAndPackAll(
       }
     }
     const promises = toDo.map((repo) => {
-      return () =>
-        CloneEditAndStore(
+      return queue.add(async () => {
+        const bar = multibar.create(110, 0, { modulename: repo.moduleName });
+        const pj = await CloneEditAndStore(
           tmpDir,
           repo,
           tarOutputDir,
           multibar,
-          bars,
+          bar,
           addPostInstall
         );
+        multibar.remove(bar);
+        return pj;
+      });
     });
     try {
-      const next = await consumeBatch(promises, 10, () => {
-        for (const bar of bars) {
-          multibar.remove(bar);
-        }
-        bars = [];
-      });
+      const next = await Promise.all(promises);
       nextGen.push(...next);
     } catch (error) {
       console.error(error);

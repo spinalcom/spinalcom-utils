@@ -31,7 +31,7 @@ function main() {
   program
     .name('spinalcom-utils')
     .description('CLI for some Spinalcom utilities')
-    .version('1.0.2');
+    .version('1.1.0');
 
   program
     .command('clear')

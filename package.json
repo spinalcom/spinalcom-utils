@@ -1,6 +1,6 @@
 {
   "name": "spinalcom-utils",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "CLI for some Spinalcom utilities",
   "main": "index.js",
   "bin": "./spinalcom-utils",
@@ -21,6 +21,7 @@
     "cli-progress": "^3.12.0",
     "commander": "^11.0.0",
     "mkdirp": "^3.0.1",
+    "p-queue": "^6.6.2",
     "simple-git": "^3.19.1"
   }
 }

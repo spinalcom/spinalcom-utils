@@ -38,12 +38,10 @@ export async function CloneEditAndStore(
   repo: IGitRepo,
   tarOutputDir: string,
   multibar: cliProgress.MultiBar,
-  bars: cliProgress.Bar[],
+  bar: cliProgress.Bar,
   addPostInstall: boolean
 ): Promise<IPackageJson> {
   const repoPath = resolve(cacheDir, 'tmp', randomUUID());
-  const bar = multibar.create(110, 0, { modulename: repo.moduleName });
-  bars.push(bar);
   await mkdirp(repoPath);
   const progress = ({ progress }: SimpleGitProgressEvent) => {
     bar.update(progress, { modulename: repo.moduleName });

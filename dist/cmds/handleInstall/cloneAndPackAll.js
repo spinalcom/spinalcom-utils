@@ -101,16 +101,17 @@ var mkdirp_1 = require("mkdirp");
 var readAndEditPackageJson_1 = require("../../utils/readAndEditPackageJson");
 var getRepositoryName_1 = require("../../utils/getRepositoryName");
 var cliProgress = require("cli-progress");
-var consumeBatch_1 = require("../../utils/consumeBatch");
 var CloneEditAndStore_1 = require("./CloneEditAndStore");
 var promises_1 = require("fs/promises");
 var hasSeenRepo_1 = require("./hasSeenRepo");
 var pushInConfitMap_1 = require("./pushInConfitMap");
 var crypto_1 = require("crypto");
+var p_queue_1 = require("p-queue");
 function cloneAndPackAll(packageToInstall, cacheDirPath, mainPackageJsonPath, resolvedConfit, isDryRun, addPostInstall) {
     return __awaiter(this, void 0, void 0, function () {
-        var conflitMap, seen, tmpDir, tarOutputDir, packageJson, index, name_1, multibar, resPackageJsonDep, currentGen, nextGen, bars, toDo, currentGen_1, currentGen_1_1, currPackageJson, spinalDependencies, key, element, repo, s, promises, next, error_1;
+        var conflitMap, seen, tmpDir, tarOutputDir, packageJson, index, name_1, multibar, resPackageJsonDep, currentGen, nextGen, queue, toDo, currentGen_1, currentGen_1_1, currPackageJson, spinalDependencies, key, element, repo, s, promises, next, error_1;
         var e_1, _a;
+        var _this = this;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
@@ -160,7 +161,7 @@ function cloneAndPackAll(packageToInstall, cacheDirPath, mainPackageJsonPath, re
                     resPackageJsonDep = {};
                     currentGen = [];
                     nextGen = [packageJson];
-                    bars = [];
+                    queue = new p_queue_1.default({ concurrency: 10 });
                     multibar.log('downloading...');
                     _b.label = 8;
                 case 8:
@@ -202,30 +203,25 @@ function cloneAndPackAll(packageToInstall, cacheDirPath, mainPackageJsonPath, re
                         finally { if (e_1) throw e_1.error; }
                     }
                     promises = toDo.map(function (repo) {
-                        return function () {
-                            return (0, CloneEditAndStore_1.CloneEditAndStore)(tmpDir, repo, tarOutputDir, multibar, bars, addPostInstall);
-                        };
+                        return queue.add(function () { return __awaiter(_this, void 0, void 0, function () {
+                            var bar, pj;
+                            return __generator(this, function (_a) {
+                                switch (_a.label) {
+                                    case 0:
+                                        bar = multibar.create(110, 0, { modulename: repo.moduleName });
+                                        return [4 /*yield*/, (0, CloneEditAndStore_1.CloneEditAndStore)(tmpDir, repo, tarOutputDir, multibar, bar, addPostInstall)];
+                                    case 1:
+                                        pj = _a.sent();
+                                        multibar.remove(bar);
+                                        return [2 /*return*/, pj];
+                                }
+                            });
+                        }); });
                     });
                     _b.label = 9;
                 case 9:
                     _b.trys.push([9, 11, , 13]);
-                    return [4 /*yield*/, (0, consumeBatch_1.consumeBatch)(promises, 10, function () {
-                            var e_2, _a;
-                            try {
-                                for (var bars_1 = (e_2 = void 0, __values(bars)), bars_1_1 = bars_1.next(); !bars_1_1.done; bars_1_1 = bars_1.next()) {
-                                    var bar = bars_1_1.value;
-                                    multibar.remove(bar);
-                                }
-                            }
-                            catch (e_2_1) { e_2 = { error: e_2_1 }; }
-                            finally {
-                                try {
-                                    if (bars_1_1 && !bars_1_1.done && (_a = bars_1.return)) _a.call(bars_1);
-                                }
-                                finally { if (e_2) throw e_2.error; }
-                            }
-                            bars = [];
-                        })];
+                    return [4 /*yield*/, Promise.all(promises)];
                 case 10:
                     next = _b.sent();
                     nextGen.push.apply(nextGen, __spreadArray([], __read(next), false));

@@ -67,15 +67,13 @@ var promises_1 = require("fs/promises");
 var crypto_1 = require("crypto");
 var simple_git_1 = require("simple-git");
 var execNpmPack_1 = require("../../utils/execNpmPack");
-function CloneEditAndStore(cacheDir, repo, tarOutputDir, multibar, bars, addPostInstall) {
+function CloneEditAndStore(cacheDir, repo, tarOutputDir, multibar, bar, addPostInstall) {
     return __awaiter(this, void 0, void 0, function () {
-        var repoPath, bar, progress, git, modulePackageJson;
+        var repoPath, progress, git, modulePackageJson;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     repoPath = (0, path_1.resolve)(cacheDir, 'tmp', (0, crypto_1.randomUUID)());
-                    bar = multibar.create(110, 0, { modulename: repo.moduleName });
-                    bars.push(bar);
                     return [4 /*yield*/, (0, mkdirp_1.mkdirp)(repoPath)];
                 case 1:
                     _a.sent();
