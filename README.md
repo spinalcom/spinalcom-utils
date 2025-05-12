@@ -5,17 +5,12 @@ CLI for some Spinalcom utilities
 ## Install
 
 ```sh
-npm i -g https://github.com/spinalcom/spinalcom-utils.git
-```
-or more manual
-```sh
 git clone https://github.com/spinalcom/spinalcom-utils.git
 cd spinalcom-utils
 npm pack
-npm i -g spinalcom-utils-1.0.2.tgz
-# or replace the 'spinalcom-utils-1.0.2.tgz' with the correct version number.
+npm i -g spinalcom-utils-1.1.0.tgz
+# or replace the 'spinalcom-utils-1.1.0.tgz' with the correct version number.
 ```
-
 
 ## Usage
 
