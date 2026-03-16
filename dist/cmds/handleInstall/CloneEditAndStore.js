@@ -100,7 +100,7 @@ function CloneEditAndStore(cacheDir, repo, tarOutputDir, multibar, bar, addPostI
                         modulename: "".concat(repo.moduleName, "@").concat(modulePackageJson.version),
                     });
                     repo.version = modulePackageJson.version;
-                    return [4 /*yield*/, (0, execNpmPack_1.execNpmPack)(repoPath, tarOutputDir)];
+                    return [4 /*yield*/, (0, execNpmPack_1.execNpmPack)(repoPath, tarOutputDir, repo.moduleName)];
                 case 7:
                     _a.sent();
                     return [4 /*yield*/, (0, promises_1.rm)(repoPath, {

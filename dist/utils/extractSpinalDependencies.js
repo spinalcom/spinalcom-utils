@@ -25,6 +25,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.extractSpinalDependencies = void 0;
 function extractSpinalDependencies(dependencies, spinalModules) {
+    if (!dependencies)
+        return;
     for (var key in dependencies) {
         if (Object.prototype.hasOwnProperty.call(dependencies, key)) {
             if (key.toLowerCase().startsWith('spinal-')) {

@@ -24,13 +24,25 @@
 
 import { exec } from 'child_process';
 
-export async function execNpmPack(repoPath: string, tarOutputDir: string) {
+export async function execNpmPack(
+  repoPath: string,
+  tarOutputDir: string,
+  moduleName: string
+): Promise<void> {
   return new Promise<void>((resolve, reject) => {
     const cmd = `npm pack --pack-destination="${tarOutputDir}" "${repoPath}"`;
     const childProcess = exec(cmd, { cwd: tarOutputDir });
+    childProcess.stderr?.pipe(process.stderr);
     childProcess.once('exit', (code) => {
       if (code === 0) return resolve();
-      return reject();
+      return reject(
+        new Error(
+          'npm pack failed for module: ' +
+            moduleName +
+            ' with exit code: ' +
+            code
+        )
+      );
     });
   });
 }

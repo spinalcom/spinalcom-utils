@@ -49,6 +49,7 @@ function main() {
         .option('-o, --only-spinalcom', 'Install only spinalcom dependencies', false)
         .option('-i, --add-post-install', 'if set at false, remove the post install script from spinalcom package', false)
         .option('-s, --save', 'Save to package.json', true)
+        .option('--output-list', 'Output the list of packages to install', false)
         .option('-p, --path <path>', 'Path to folder containing package.json or the file itself', '.')
         .option('-c, --cache <path>', 'path to cache directory', constants_1.DEFAULT_CACHE_DIR)
         .action(handleInstall_1.handleInstall);

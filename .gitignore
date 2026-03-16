@@ -2,3 +2,4 @@ test_files
 node_modules
 .cache
 spinalcom-utils-*
+tests

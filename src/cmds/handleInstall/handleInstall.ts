@@ -41,6 +41,7 @@ export interface IInstallOpt {
   onlySpinalcom: boolean;
   save: boolean;
   addPostInstall: boolean;
+  outputList: boolean;
 }
 
 export async function handleInstall(
@@ -72,6 +73,10 @@ export async function handleInstall(
       options.dryRun,
       options.addPostInstall
     );
+  if (options.outputList) {
+    const packages = Array.from(seen);
+    await writeFile('spinalPackages.json', JSON.stringify(packages, null, 2));
+  }
   if (conflitMap) {
     const res: IConflit = transformConfitToJSON(resolvedConfit, conflitMap);
     if (hasConflitNotResolved(res)) {
@@ -96,9 +101,9 @@ export async function handleInstall(
     const pathPackageToInstall = packages.map((itm) => {
       const regRes =
         /^v?(?<Major>0|(?:[1-9]\d*))(?:\.(?<Minor>0|(?:[1-9]\d*))(?:\.(?<Patch>0|(?:[1-9]\d*)))?(?:\-(?<PreRelease>[0-9A-Z\.-]+))?(?:\+(?<Meta>[0-9A-Z\.-]+))?)?/i.exec(
-          itm.version
+          itm.version!
         );
-      const version = `${regRes.groups.Major}.${regRes.groups.Minor}.${regRes.groups.Patch}`;
+      const version = `${regRes?.groups?.Major}.${regRes?.groups?.Minor}.${regRes?.groups?.Patch}`;
       return resolve(tarOutputDir, `${itm.moduleName}-${version}.tgz`);
     });
     console.log('Start installing spinalcom dependencies...');

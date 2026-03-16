@@ -25,9 +25,10 @@
 import type { IDependencies } from '../interfaces/IPackageJson';
 
 export function extractSpinalDependencies(
-  dependencies: IDependencies,
+  dependencies: IDependencies | undefined,
   spinalModules: Map<string, string>
 ) {
+  if (!dependencies) return;
   for (const key in dependencies) {
     if (Object.prototype.hasOwnProperty.call(dependencies, key)) {
       if (key.toLowerCase().startsWith('spinal-')) {

@@ -61,16 +61,21 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.execNpmPack = void 0;
 var child_process_1 = require("child_process");
-function execNpmPack(repoPath, tarOutputDir) {
+function execNpmPack(repoPath, tarOutputDir, moduleName) {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
             return [2 /*return*/, new Promise(function (resolve, reject) {
+                    var _a;
                     var cmd = "npm pack --pack-destination=\"".concat(tarOutputDir, "\" \"").concat(repoPath, "\"");
                     var childProcess = (0, child_process_1.exec)(cmd, { cwd: tarOutputDir });
+                    (_a = childProcess.stderr) === null || _a === void 0 ? void 0 : _a.pipe(process.stderr);
                     childProcess.once('exit', function (code) {
                         if (code === 0)
                             return resolve();
-                        return reject();
+                        return reject(new Error('npm pack failed for module: ' +
+                            moduleName +
+                            ' with exit code: ' +
+                            code));
                     });
                 })];
         });

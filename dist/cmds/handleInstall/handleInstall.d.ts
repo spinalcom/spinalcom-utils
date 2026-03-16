@@ -5,5 +5,6 @@ export interface IInstallOpt {
     onlySpinalcom: boolean;
     save: boolean;
     addPostInstall: boolean;
+    outputList: boolean;
 }
 export declare function handleInstall(packageToInstall: string[], options: IInstallOpt): Promise<void>;

@@ -69,7 +69,7 @@ export async function cloneAndPackAll(
     };
     for (let index = 0; index < packageToInstall.length; index++) {
       const name = packageToInstall[index];
-      packageJson.spinalDependencies[`undefined-${index}`] = name;
+      packageJson.spinalDependencies![`undefined-${index}`] = name;
     }
   }
   await rm(tmpDir, {

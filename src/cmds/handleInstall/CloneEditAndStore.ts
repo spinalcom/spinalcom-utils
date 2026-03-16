@@ -75,7 +75,7 @@ export async function CloneEditAndStore(
     modulename: `${repo.moduleName}@${modulePackageJson.version}`,
   });
   repo.version = modulePackageJson.version;
-  await execNpmPack(repoPath, tarOutputDir);
+  await execNpmPack(repoPath, tarOutputDir, repo.moduleName);
   await rm(repoPath, {
     force: true,
     recursive: true,

@@ -59,6 +59,7 @@ function main() {
       false
     )
     .option('-s, --save', 'Save to package.json', true)
+    .option('--output-list', 'Output the list of packages to install', false)
     .option(
       '-p, --path <path>',
       'Path to folder containing package.json or the file itself',

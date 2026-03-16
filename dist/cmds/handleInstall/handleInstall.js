@@ -73,7 +73,7 @@ var execNpmInstall_1 = require("../../utils/execNpmInstall");
 var readAndEditPackageJson_1 = require("../../utils/readAndEditPackageJson");
 function handleInstall(packageToInstall, options) {
     return __awaiter(this, void 0, void 0, function () {
-        var timeStart, cacheDirPath, mainPackageJsonPath, conflitFilePath, resolvedConfit, missing, _a, conflitMap, seen, tarOutputDir, dependancies, res, packages, packageJsonPath, pathPackageToInstall;
+        var timeStart, cacheDirPath, mainPackageJsonPath, conflitFilePath, resolvedConfit, missing, _a, conflitMap, seen, tarOutputDir, dependancies, packages_1, res, packages, packageJsonPath, pathPackageToInstall;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
@@ -91,46 +91,54 @@ function handleInstall(packageToInstall, options) {
                     return [4 /*yield*/, (0, cloneAndPackAll_1.cloneAndPackAll)(packageToInstall, cacheDirPath, mainPackageJsonPath, resolvedConfit, options.dryRun, options.addPostInstall)];
                 case 2:
                     _a = _b.sent(), conflitMap = _a.conflitMap, seen = _a.seen, tarOutputDir = _a.tarOutputDir, dependancies = _a.dependancies;
-                    if (!conflitMap) return [3 /*break*/, 4];
-                    res = (0, transformConfitToJSON_1.transformConfitToJSON)(resolvedConfit, conflitMap);
-                    if (!(0, hasConflitNotResolved_1.hasConflitNotResolved)(res)) return [3 /*break*/, 4];
-                    return [4 /*yield*/, (0, promises_1.writeFile)(conflitFilePath, JSON.stringify(res, null, 2))];
+                    if (!options.outputList) return [3 /*break*/, 4];
+                    packages_1 = Array.from(seen);
+                    return [4 /*yield*/, (0, promises_1.writeFile)('spinalPackages.json', JSON.stringify(packages_1, null, 2))];
                 case 3:
+                    _b.sent();
+                    _b.label = 4;
+                case 4:
+                    if (!conflitMap) return [3 /*break*/, 6];
+                    res = (0, transformConfitToJSON_1.transformConfitToJSON)(resolvedConfit, conflitMap);
+                    if (!(0, hasConflitNotResolved_1.hasConflitNotResolved)(res)) return [3 /*break*/, 6];
+                    return [4 /*yield*/, (0, promises_1.writeFile)(conflitFilePath, JSON.stringify(res, null, 2))];
+                case 5:
                     _b.sent();
                     console.error('Some conflit found, edit file %s', conflitFilePath);
                     return [2 /*return*/];
-                case 4:
+                case 6:
                     packages = Array.from(seen);
                     console.log('%d Spinalcom package found :', packages.length);
                     packages.forEach(function (itm) { return console.log("  ".concat(itm.moduleName, "@").concat(itm.version)); });
-                    if (!(options.dryRun === false)) return [3 /*break*/, 9];
+                    if (!(options.dryRun === false)) return [3 /*break*/, 11];
                     packageJsonPath = (0, getJSONFilePath_1.getJSONFilePath)(mainPackageJsonPath, 'package.json', false);
-                    if (!(options.onlySpinalcom === false)) return [3 /*break*/, 6];
+                    if (!(options.onlySpinalcom === false)) return [3 /*break*/, 8];
                     console.log('Start installing main dependencies...');
                     return [4 /*yield*/, (0, execNpmInstall_1.execNpmInstall)(packageJsonPath)];
-                case 5:
+                case 7:
                     _b.sent();
-                    _b.label = 6;
-                case 6:
+                    _b.label = 8;
+                case 8:
                     pathPackageToInstall = packages.map(function (itm) {
+                        var _a, _b, _c;
                         var regRes = /^v?(?<Major>0|(?:[1-9]\d*))(?:\.(?<Minor>0|(?:[1-9]\d*))(?:\.(?<Patch>0|(?:[1-9]\d*)))?(?:\-(?<PreRelease>[0-9A-Z\.-]+))?(?:\+(?<Meta>[0-9A-Z\.-]+))?)?/i.exec(itm.version);
-                        var version = "".concat(regRes.groups.Major, ".").concat(regRes.groups.Minor, ".").concat(regRes.groups.Patch);
+                        var version = "".concat((_a = regRes === null || regRes === void 0 ? void 0 : regRes.groups) === null || _a === void 0 ? void 0 : _a.Major, ".").concat((_b = regRes === null || regRes === void 0 ? void 0 : regRes.groups) === null || _b === void 0 ? void 0 : _b.Minor, ".").concat((_c = regRes === null || regRes === void 0 ? void 0 : regRes.groups) === null || _c === void 0 ? void 0 : _c.Patch);
                         return (0, path_1.resolve)(tarOutputDir, "".concat(itm.moduleName, "-").concat(version, ".tgz"));
                     });
                     console.log('Start installing spinalcom dependencies...');
                     return [4 /*yield*/, (0, execNpmInstall_1.execNpmInstall)(packageJsonPath, pathPackageToInstall)];
-                case 7:
+                case 9:
                     _b.sent();
-                    if (!options.save) return [3 /*break*/, 9];
+                    if (!options.save) return [3 /*break*/, 11];
                     return [4 /*yield*/, (0, readAndEditPackageJson_1.readAndEditPackageJson)(mainPackageJsonPath, options.addPostInstall, true, dependancies)];
-                case 8:
+                case 10:
                     _b.sent();
-                    _b.label = 9;
-                case 9: return [4 /*yield*/, (0, promises_1.rm)((0, path_1.resolve)(tarOutputDir, '..'), {
+                    _b.label = 11;
+                case 11: return [4 /*yield*/, (0, promises_1.rm)((0, path_1.resolve)(tarOutputDir, '..'), {
                         force: true,
                         recursive: true,
                     })];
-                case 10:
+                case 12:
                     _b.sent();
                     console.log('Install done in %d ms', Date.now() - timeStart);
                     return [2 /*return*/];
