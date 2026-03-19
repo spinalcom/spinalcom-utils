@@ -30,8 +30,8 @@ export async function execNpmPack(
   moduleName: string
 ): Promise<void> {
   return new Promise<void>((resolve, reject) => {
-    const cmd = `npm pack --pack-destination="${tarOutputDir}" "${repoPath}"`;
-    const childProcess = exec(cmd, { cwd: tarOutputDir });
+    const cmd = `npm pack --pack-destination="${tarOutputDir}" "${repoPath}" 2> >(grep -v \"npm notice\" >&2) > /dev/null`;
+    const childProcess = exec(cmd, { cwd: tarOutputDir, shell: '/bin/bash' });
     childProcess.stderr?.pipe(process.stderr);
     childProcess.once('exit', (code) => {
       if (code === 0) return resolve();

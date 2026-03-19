@@ -66,8 +66,8 @@ function execNpmPack(repoPath, tarOutputDir, moduleName) {
         return __generator(this, function (_a) {
             return [2 /*return*/, new Promise(function (resolve, reject) {
                     var _a;
-                    var cmd = "npm pack --pack-destination=\"".concat(tarOutputDir, "\" \"").concat(repoPath, "\"");
-                    var childProcess = (0, child_process_1.exec)(cmd, { cwd: tarOutputDir });
+                    var cmd = "npm pack --pack-destination=\"".concat(tarOutputDir, "\" \"").concat(repoPath, "\" 2> >(grep -v \"npm notice\" >&2) > /dev/null");
+                    var childProcess = (0, child_process_1.exec)(cmd, { cwd: tarOutputDir, shell: '/bin/bash' });
                     (_a = childProcess.stderr) === null || _a === void 0 ? void 0 : _a.pipe(process.stderr);
                     childProcess.once('exit', function (code) {
                         if (code === 0)
